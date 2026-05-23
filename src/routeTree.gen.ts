@@ -9,38 +9,127 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AnalyzeIndexRouteImport } from './routes/analyze.index'
+import { Route as ResultsIdRouteImport } from './routes/results.$id'
+import { Route as AnalyzeResultsRouteImport } from './routes/analyze.results'
+import { Route as AnalyzeQuestionsRouteImport } from './routes/analyze.questions'
+import { Route as AnalyzePreviewRouteImport } from './routes/analyze.preview'
 
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnalyzeIndexRoute = AnalyzeIndexRouteImport.update({
+  id: '/analyze/',
+  path: '/analyze/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResultsIdRoute = ResultsIdRouteImport.update({
+  id: '/results/$id',
+  path: '/results/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyzeResultsRoute = AnalyzeResultsRouteImport.update({
+  id: '/analyze/results',
+  path: '/analyze/results',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyzeQuestionsRoute = AnalyzeQuestionsRouteImport.update({
+  id: '/analyze/questions',
+  path: '/analyze/questions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyzePreviewRoute = AnalyzePreviewRouteImport.update({
+  id: '/analyze/preview',
+  path: '/analyze/preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/analyze/preview': typeof AnalyzePreviewRoute
+  '/analyze/questions': typeof AnalyzeQuestionsRoute
+  '/analyze/results': typeof AnalyzeResultsRoute
+  '/results/$id': typeof ResultsIdRoute
+  '/analyze/': typeof AnalyzeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/analyze/preview': typeof AnalyzePreviewRoute
+  '/analyze/questions': typeof AnalyzeQuestionsRoute
+  '/analyze/results': typeof AnalyzeResultsRoute
+  '/results/$id': typeof ResultsIdRoute
+  '/analyze': typeof AnalyzeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/analyze/preview': typeof AnalyzePreviewRoute
+  '/analyze/questions': typeof AnalyzeQuestionsRoute
+  '/analyze/results': typeof AnalyzeResultsRoute
+  '/results/$id': typeof ResultsIdRoute
+  '/analyze/': typeof AnalyzeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/analyze/preview'
+    | '/analyze/questions'
+    | '/analyze/results'
+    | '/results/$id'
+    | '/analyze/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/analyze/preview'
+    | '/analyze/questions'
+    | '/analyze/results'
+    | '/results/$id'
+    | '/analyze'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/analyze/preview'
+    | '/analyze/questions'
+    | '/analyze/results'
+    | '/results/$id'
+    | '/analyze/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
+  AnalyzePreviewRoute: typeof AnalyzePreviewRoute
+  AnalyzeQuestionsRoute: typeof AnalyzeQuestionsRoute
+  AnalyzeResultsRoute: typeof AnalyzeResultsRoute
+  ResultsIdRoute: typeof ResultsIdRoute
+  AnalyzeIndexRoute: typeof AnalyzeIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +137,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analyze/': {
+      id: '/analyze/'
+      path: '/analyze'
+      fullPath: '/analyze/'
+      preLoaderRoute: typeof AnalyzeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/results/$id': {
+      id: '/results/$id'
+      path: '/results/$id'
+      fullPath: '/results/$id'
+      preLoaderRoute: typeof ResultsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analyze/results': {
+      id: '/analyze/results'
+      path: '/analyze/results'
+      fullPath: '/analyze/results'
+      preLoaderRoute: typeof AnalyzeResultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analyze/questions': {
+      id: '/analyze/questions'
+      path: '/analyze/questions'
+      fullPath: '/analyze/questions'
+      preLoaderRoute: typeof AnalyzeQuestionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analyze/preview': {
+      id: '/analyze/preview'
+      path: '/analyze/preview'
+      fullPath: '/analyze/preview'
+      preLoaderRoute: typeof AnalyzePreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
+  AnalyzePreviewRoute: AnalyzePreviewRoute,
+  AnalyzeQuestionsRoute: AnalyzeQuestionsRoute,
+  AnalyzeResultsRoute: AnalyzeResultsRoute,
+  ResultsIdRoute: ResultsIdRoute,
+  AnalyzeIndexRoute: AnalyzeIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
