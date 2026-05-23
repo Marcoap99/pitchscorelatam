@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AnalyzeIndexRouteImport } from './routes/analyze.index'
 import { Route as AnalyzeQuestionsRouteImport } from './routes/analyze.questions'
+import { Route as AnalyzePreviewRouteImport } from './routes/analyze.preview'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,33 +29,42 @@ const AnalyzeQuestionsRoute = AnalyzeQuestionsRouteImport.update({
   path: '/analyze/questions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnalyzePreviewRoute = AnalyzePreviewRouteImport.update({
+  id: '/analyze/preview',
+  path: '/analyze/preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analyze/preview': typeof AnalyzePreviewRoute
   '/analyze/questions': typeof AnalyzeQuestionsRoute
   '/analyze/': typeof AnalyzeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analyze/preview': typeof AnalyzePreviewRoute
   '/analyze/questions': typeof AnalyzeQuestionsRoute
   '/analyze': typeof AnalyzeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analyze/preview': typeof AnalyzePreviewRoute
   '/analyze/questions': typeof AnalyzeQuestionsRoute
   '/analyze/': typeof AnalyzeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analyze/questions' | '/analyze/'
+  fullPaths: '/' | '/analyze/preview' | '/analyze/questions' | '/analyze/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analyze/questions' | '/analyze'
-  id: '__root__' | '/' | '/analyze/questions' | '/analyze/'
+  to: '/' | '/analyze/preview' | '/analyze/questions' | '/analyze'
+  id: '__root__' | '/' | '/analyze/preview' | '/analyze/questions' | '/analyze/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalyzePreviewRoute: typeof AnalyzePreviewRoute
   AnalyzeQuestionsRoute: typeof AnalyzeQuestionsRoute
   AnalyzeIndexRoute: typeof AnalyzeIndexRoute
 }
@@ -82,11 +92,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnalyzeQuestionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analyze/preview': {
+      id: '/analyze/preview'
+      path: '/analyze/preview'
+      fullPath: '/analyze/preview'
+      preLoaderRoute: typeof AnalyzePreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalyzePreviewRoute: AnalyzePreviewRoute,
   AnalyzeQuestionsRoute: AnalyzeQuestionsRoute,
   AnalyzeIndexRoute: AnalyzeIndexRoute,
 }
