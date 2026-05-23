@@ -74,6 +74,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "PitchScore AI" },
       { name: "description", content: "Analizador de pitch decks para founders LATAM." },
+      { property: "og:title", content: "PitchScore AI" },
+      { name: "twitter:title", content: "PitchScore AI" },
+      { property: "og:description", content: "Analizador de pitch decks para founders LATAM." },
+      { name: "twitter:description", content: "Analizador de pitch decks para founders LATAM." },
+      { name: "twitter:card", content: "summary" },
+      { property: "og:type", content: "website" },
     ],
     links: [
       {
