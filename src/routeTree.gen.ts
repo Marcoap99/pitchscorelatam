@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AnalyzeIndexRouteImport } from './routes/analyze.index'
+import { Route as AnalyzeQuestionsRouteImport } from './routes/analyze.questions'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const AnalyzeIndexRoute = AnalyzeIndexRouteImport.update({
   path: '/analyze/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnalyzeQuestionsRoute = AnalyzeQuestionsRouteImport.update({
+  id: '/analyze/questions',
+  path: '/analyze/questions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analyze/questions': typeof AnalyzeQuestionsRoute
   '/analyze/': typeof AnalyzeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analyze/questions': typeof AnalyzeQuestionsRoute
   '/analyze': typeof AnalyzeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analyze/questions': typeof AnalyzeQuestionsRoute
   '/analyze/': typeof AnalyzeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analyze/'
+  fullPaths: '/' | '/analyze/questions' | '/analyze/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analyze'
-  id: '__root__' | '/' | '/analyze/'
+  to: '/' | '/analyze/questions' | '/analyze'
+  id: '__root__' | '/' | '/analyze/questions' | '/analyze/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalyzeQuestionsRoute: typeof AnalyzeQuestionsRoute
   AnalyzeIndexRoute: typeof AnalyzeIndexRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnalyzeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analyze/questions': {
+      id: '/analyze/questions'
+      path: '/analyze/questions'
+      fullPath: '/analyze/questions'
+      preLoaderRoute: typeof AnalyzeQuestionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalyzeQuestionsRoute: AnalyzeQuestionsRoute,
   AnalyzeIndexRoute: AnalyzeIndexRoute,
 }
 export const routeTree = rootRouteImport
