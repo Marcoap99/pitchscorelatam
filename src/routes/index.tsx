@@ -199,7 +199,7 @@ function Footer() {
   return (
     <footer className="px-6 py-12 border-t border-ink/10">
       <div className="mx-auto max-w-6xl flex flex-col md:flex-row gap-4 items-center justify-between text-sm text-muted-foreground">
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 md:gap-6">
           <a href="#" className="hover:text-ink">Política de privacidad</a>
           <a href="#" className="hover:text-ink">Términos</a>
           <a href="#" className="hover:text-ink">Contacto</a>
