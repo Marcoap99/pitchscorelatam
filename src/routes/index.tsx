@@ -141,7 +141,7 @@ function Landing() {
 
       {/* Final CTA */}
       <section className="px-6 pb-24">
-        <div className="mx-auto max-w-3xl text-center card-soft p-10 md:p-14 bg-ink text-cream border-ink">
+        <div className="mx-auto max-w-3xl text-center card-soft p-6 md:p-14 bg-ink text-cream border-ink">
           <h2 className="text-3xl md:text-4xl text-cream">
             El primer vistazo es gratis. Siempre.
           </h2>
