@@ -173,7 +173,7 @@ function PreviewPage() {
             </div>
 
             {/* Subscription */}
-            <div className="rounded-2xl bg-cream text-ink p-6 flex flex-col relative">
+            <div className="rounded-2xl bg-cream text-ink p-5 flex flex-col relative">
               <span className="absolute -top-3 left-6 inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold px-3 py-1">
                 Más popular ⭐
               </span>
