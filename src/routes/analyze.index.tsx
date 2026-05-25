@@ -139,7 +139,7 @@ function AnalyzePage() {
 
             {/* GitHub field */}
             <div className="mt-8 card-soft p-5">
-              <label className="flex items-center gap-2 text-sm font-semibold text-ink">
+              <label className="flex items-start gap-2 text-sm font-semibold text-ink">
                 <Github className="size-4" />
                 ¿Tienes el producto desarrollado? Pega el link de tu repositorio
               </label>
