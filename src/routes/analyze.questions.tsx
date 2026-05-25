@@ -121,7 +121,7 @@ function QuestionsPage() {
               <button
                 key={opt}
                 onClick={() => select(opt)}
-                className={`card-soft px-4 py-3 text-sm text-left transition-all ${
+                className={`card-soft px-4 py-4 text-sm text-left transition-all ${
                   value === opt
                     ? "border-primary bg-primary/5 text-primary font-semibold"
                     : "hover:border-ink/30"
