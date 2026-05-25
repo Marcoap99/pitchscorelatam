@@ -96,7 +96,7 @@ function AnalyzePage() {
                 const f = e.dataTransfer.files[0];
                 if (f) handleFile(f);
               }}
-              className={`w-full card-soft border-2 border-dashed transition-colors p-12 md:p-16 text-center ${
+              className={`w-full card-soft border-2 border-dashed transition-colors p-8 md:p-16 text-center ${
                 dragOver ? "border-primary bg-primary/5" : "border-ink/15 hover:border-ink/30"
               }`}
             >
@@ -139,7 +139,7 @@ function AnalyzePage() {
 
             {/* GitHub field */}
             <div className="mt-8 card-soft p-5">
-              <label className="flex items-center gap-2 text-sm font-semibold text-ink">
+              <label className="flex items-start gap-2 text-sm font-semibold text-ink">
                 <Github className="size-4" />
                 ¿Tienes el producto desarrollado? Pega el link de tu repositorio
               </label>

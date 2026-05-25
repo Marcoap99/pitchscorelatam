@@ -43,7 +43,7 @@ function ResultsPage() {
               <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">
                 Score global
               </p>
-              <p className={`font-display text-7xl md:text-8xl font-bold leading-none ${scoreColor}`}>
+              <p className={`font-display text-6xl md:text-8xl font-bold leading-none ${scoreColor}`}>
                 {r.score_global}
                 <span className="text-3xl text-muted-foreground">/100</span>
               </p>
@@ -186,13 +186,14 @@ function ResultsPage() {
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
-          <Button variant="hero" size="lg">
+          <Button variant="hero" size="lg" className="w-full sm:w-auto">
             <Download />
             Descargar PDF del análisis
           </Button>
           <Button
             variant="outline"
             size="lg"
+            className="w-full sm:w-auto"
             onClick={() => {
               resetState();
               navigate({ to: "/analyze" });
@@ -201,7 +202,7 @@ function ResultsPage() {
             <RefreshCw />
             Analizar nueva versión
           </Button>
-          <Button variant="ghost" size="lg">
+          <Button variant="ghost" size="lg" className="w-full sm:w-auto">
             <Share2 />
             Compartir link
           </Button>

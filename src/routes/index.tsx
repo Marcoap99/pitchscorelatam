@@ -27,7 +27,7 @@ function Landing() {
       <Header />
 
       {/* Hero */}
-      <section className="px-6 pt-16 pb-24 md:pt-28 md:pb-32">
+      <section className="px-4 pt-12 pb-20 md:pt-28 md:pb-32">
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground mb-6">
             <span className="size-1.5 rounded-full bg-success" />
@@ -84,7 +84,7 @@ function Landing() {
                 body: "Score por dimensión, recomendaciones priorizadas y benchmarks LATAM.",
               },
             ].map((s) => (
-              <div key={s.step} className="card-soft p-7">
+              <div key={s.step} className="card-soft p-5 md:p-7">
                 <div className="flex items-center justify-between mb-6">
                   <div className="size-11 rounded-full bg-primary/10 text-primary grid place-items-center">
                     <s.icon className="size-5" />
@@ -141,14 +141,14 @@ function Landing() {
 
       {/* Final CTA */}
       <section className="px-6 pb-24">
-        <div className="mx-auto max-w-3xl text-center card-soft p-10 md:p-14 bg-ink text-cream border-ink">
+        <div className="mx-auto max-w-3xl text-center card-soft p-6 md:p-14 bg-ink text-cream border-ink">
           <h2 className="text-3xl md:text-4xl text-cream">
             El primer vistazo es gratis. Siempre.
           </h2>
           <p className="mt-4 text-cream/70">
             No te pedimos cuenta para empezar. Sube tu deck y mira qué encontramos.
           </p>
-          <div className="mt-8 flex items-center justify-center gap-4 text-xs text-cream/60 flex-wrap">
+          <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-center gap-2 sm:gap-4 text-xs text-cream/60">
             {["Validación de estructura", "Score por dimensión", "Recomendaciones LATAM"].map((f) => (
               <span key={f} className="inline-flex items-center gap-1.5">
                 <Check className="size-3.5 text-success" />
@@ -183,7 +183,7 @@ function Header() {
           <span className="font-display font-bold text-lg">PitchScore</span>
         </Link>
         <nav className="flex items-center gap-2">
-          <Button asChild variant="ghost" size="sm">
+          <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
             <Link to="/dashboard">Iniciar sesión</Link>
           </Button>
           <Button asChild variant="hero" size="sm">
@@ -199,7 +199,7 @@ function Footer() {
   return (
     <footer className="px-6 py-12 border-t border-ink/10">
       <div className="mx-auto max-w-6xl flex flex-col md:flex-row gap-4 items-center justify-between text-sm text-muted-foreground">
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 md:gap-6">
           <a href="#" className="hover:text-ink">Política de privacidad</a>
           <a href="#" className="hover:text-ink">Términos</a>
           <a href="#" className="hover:text-ink">Contacto</a>

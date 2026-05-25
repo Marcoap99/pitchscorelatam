@@ -40,13 +40,11 @@ function PreviewPage() {
           <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">
             Paso 3 de 3
           </p>
-          <div className="flex items-end justify-between flex-wrap gap-3">
-            <h1 className="text-3xl md:text-4xl">Vista previa de tu análisis</h1>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-warning/15 text-warning text-xs font-semibold px-3 py-1.5">
-              <Sparkles className="size-3.5" />
-              1 de 4 dimensiones · Desbloquea el resto
-            </span>
-          </div>
+          <h1 className="text-3xl md:text-4xl">Vista previa de tu análisis</h1>
+          <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-warning/15 text-warning text-xs font-semibold px-3 py-1.5">
+            <Sparkles className="size-3.5" />
+            1 de 4 dimensiones · Desbloquea el resto
+          </span>
         </div>
 
         {/* Validación */}
@@ -142,7 +140,7 @@ function PreviewPage() {
         </div>
 
         {/* Paywall */}
-        <div className="mt-12 rounded-3xl bg-ink text-cream p-8 md:p-10">
+        <div className="mt-12 rounded-3xl bg-ink text-cream p-6 md:p-10">
           <h2 className="text-3xl text-cream max-w-md">
             Ve todo lo que está bloqueando tu ronda
           </h2>
@@ -153,7 +151,7 @@ function PreviewPage() {
 
           <div className="grid md:grid-cols-2 gap-4 mt-8">
             {/* One-time */}
-            <div className="rounded-2xl border border-cream/15 p-6 flex flex-col">
+            <div className="rounded-2xl border border-cream/15 p-5 flex flex-col">
               <p className="text-sm text-cream/60">Análisis único</p>
               <p className="font-display text-4xl font-bold mt-2">
                 $9 <span className="text-base font-normal text-cream/60">USD</span>
@@ -175,7 +173,7 @@ function PreviewPage() {
             </div>
 
             {/* Subscription */}
-            <div className="rounded-2xl bg-cream text-ink p-6 flex flex-col relative">
+            <div className="rounded-2xl bg-cream text-ink p-5 flex flex-col relative">
               <span className="absolute -top-3 left-6 inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold px-3 py-1">
                 Más popular ⭐
               </span>
