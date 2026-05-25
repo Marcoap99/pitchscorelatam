@@ -43,7 +43,7 @@ function ResultsPage() {
               <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">
                 Score global
               </p>
-              <p className={`font-display text-7xl md:text-8xl font-bold leading-none ${scoreColor}`}>
+              <p className={`font-display text-6xl md:text-8xl font-bold leading-none ${scoreColor}`}>
                 {r.score_global}
                 <span className="text-3xl text-muted-foreground">/100</span>
               </p>
