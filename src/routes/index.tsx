@@ -27,7 +27,7 @@ function Landing() {
       <Header />
 
       {/* Hero */}
-      <section className="px-6 pt-16 pb-24 md:pt-28 md:pb-32">
+      <section className="px-4 pt-12 pb-20 md:pt-28 md:pb-32">
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground mb-6">
             <span className="size-1.5 rounded-full bg-success" />
