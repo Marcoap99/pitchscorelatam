@@ -40,13 +40,11 @@ function PreviewPage() {
           <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">
             Paso 3 de 3
           </p>
-          <div className="flex items-end justify-between flex-wrap gap-3">
-            <h1 className="text-3xl md:text-4xl">Vista previa de tu análisis</h1>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-warning/15 text-warning text-xs font-semibold px-3 py-1.5">
-              <Sparkles className="size-3.5" />
-              1 de 4 dimensiones · Desbloquea el resto
-            </span>
-          </div>
+          <h1 className="text-3xl md:text-4xl">Vista previa de tu análisis</h1>
+          <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-warning/15 text-warning text-xs font-semibold px-3 py-1.5">
+            <Sparkles className="size-3.5" />
+            1 de 4 dimensiones · Desbloquea el resto
+          </span>
         </div>
 
         {/* Validación */}
