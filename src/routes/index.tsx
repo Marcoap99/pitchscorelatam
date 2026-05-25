@@ -183,7 +183,7 @@ function Header() {
           <span className="font-display font-bold text-lg">PitchScore</span>
         </Link>
         <nav className="flex items-center gap-2">
-          <Button asChild variant="ghost" size="sm">
+          <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
             <Link to="/dashboard">Iniciar sesión</Link>
           </Button>
           <Button asChild variant="hero" size="sm">
