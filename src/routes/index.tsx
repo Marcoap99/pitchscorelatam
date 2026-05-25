@@ -84,7 +84,7 @@ function Landing() {
                 body: "Score por dimensión, recomendaciones priorizadas y benchmarks LATAM.",
               },
             ].map((s) => (
-              <div key={s.step} className="card-soft p-7">
+              <div key={s.step} className="card-soft p-5 md:p-7">
                 <div className="flex items-center justify-between mb-6">
                   <div className="size-11 rounded-full bg-primary/10 text-primary grid place-items-center">
                     <s.icon className="size-5" />
