@@ -148,7 +148,7 @@ function Landing() {
           <p className="mt-4 text-cream/70">
             No te pedimos cuenta para empezar. Sube tu deck y mira qué encontramos.
           </p>
-          <div className="mt-8 flex items-center justify-center gap-4 text-xs text-cream/60 flex-wrap">
+          <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-center gap-2 sm:gap-4 text-xs text-cream/60">
             {["Validación de estructura", "Score por dimensión", "Recomendaciones LATAM"].map((f) => (
               <span key={f} className="inline-flex items-center gap-1.5">
                 <Check className="size-3.5 text-success" />
