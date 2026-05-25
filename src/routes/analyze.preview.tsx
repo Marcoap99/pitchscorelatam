@@ -151,7 +151,7 @@ function PreviewPage() {
 
           <div className="grid md:grid-cols-2 gap-4 mt-8">
             {/* One-time */}
-            <div className="rounded-2xl border border-cream/15 p-6 flex flex-col">
+            <div className="rounded-2xl border border-cream/15 p-5 flex flex-col">
               <p className="text-sm text-cream/60">Análisis único</p>
               <p className="font-display text-4xl font-bold mt-2">
                 $9 <span className="text-base font-normal text-cream/60">USD</span>
