@@ -130,17 +130,21 @@ function PreviewPage() {
             ))}
           </div>
           <div className="absolute inset-0 grid place-items-center bg-background/40 rounded-2xl">
-            <div className="flex flex-col items-center gap-2 rounded-full bg-ink text-cream px-6 py-3 font-semibold shadow-lg">
-              <span className="flex items-center gap-2">
-                <Lock className="size-4" />
-                Desbloquea el análisis completo
-              </span>
-            </div>
+            <button
+              type="button"
+              onClick={() =>
+                document.getElementById("paywall")?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="flex items-center gap-2 rounded-full bg-ink text-cream px-6 py-3 font-semibold shadow-lg"
+            >
+              <Lock className="size-4" />
+              Desbloquea el análisis completo
+            </button>
           </div>
         </div>
 
         {/* Paywall */}
-        <div className="mt-12 rounded-3xl bg-ink text-cream p-6 md:p-10">
+        <div id="paywall" className="mt-12 rounded-3xl bg-ink text-cream p-6 md:p-10">
           <h2 className="text-3xl text-cream max-w-md">
             Ve todo lo que está bloqueando tu ronda
           </h2>
@@ -149,9 +153,9 @@ function PreviewPage() {
             descargable para compartir con tu co-founder.
           </p>
 
-          <div className="grid md:grid-cols-2 gap-4 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
             {/* One-time */}
-            <div className="rounded-2xl border border-cream/15 p-5 flex flex-col">
+            <div className="w-full rounded-2xl border border-cream/15 p-5 flex flex-col">
               <p className="text-sm text-cream/60">Análisis único</p>
               <p className="font-display text-4xl font-bold mt-2">
                 $9 <span className="text-base font-normal text-cream/60">USD</span>
@@ -173,8 +177,8 @@ function PreviewPage() {
             </div>
 
             {/* Subscription */}
-            <div className="rounded-2xl bg-cream text-ink p-5 flex flex-col relative">
-              <span className="absolute -top-3 left-6 inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold px-3 py-1">
+            <div className="w-full rounded-2xl bg-cream text-ink p-5 flex flex-col relative">
+              <span className="absolute -top-3 left-4 inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold px-3 py-1">
                 Más popular ⭐
               </span>
               <p className="text-sm text-muted-foreground">Plan founder</p>
