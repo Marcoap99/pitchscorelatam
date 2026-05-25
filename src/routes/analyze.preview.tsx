@@ -140,7 +140,7 @@ function PreviewPage() {
         </div>
 
         {/* Paywall */}
-        <div className="mt-12 rounded-3xl bg-ink text-cream p-8 md:p-10">
+        <div className="mt-12 rounded-3xl bg-ink text-cream p-6 md:p-10">
           <h2 className="text-3xl text-cream max-w-md">
             Ve todo lo que está bloqueando tu ronda
           </h2>
