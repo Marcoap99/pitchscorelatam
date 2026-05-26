@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, AlertTriangle, Download, RefreshCw, Share2, Github, ArrowLeft } from "lucide-react";
-import { getState, MOCK_RESULT, resetState } from "@/lib/analyze-store";
+import { Check, Download, RefreshCw, Share2, Github, ArrowLeft } from "lucide-react";
+import { getState, resetState } from "@/lib/analyze-store";
 
 export const Route = createFileRoute("/analyze/results")({
   head: () => ({ meta: [{ title: "Tu análisis completo — PitchScore AI" }] }),
@@ -10,8 +11,14 @@ export const Route = createFileRoute("/analyze/results")({
 
 function ResultsPage() {
   const navigate = useNavigate();
-  const state = typeof window !== "undefined" ? getState() : { contexto: {}, githubUrl: undefined };
-  const r = MOCK_RESULT;
+  const state = typeof window !== "undefined" ? getState() : { contexto: {}, githubUrl: undefined, resultado: undefined };
+  const r = state.resultado;
+
+  useEffect(() => {
+    if (!r) navigate({ to: "/analyze" });
+  }, [r, navigate]);
+
+  if (!r) return null;
 
   const scoreColor =
     r.score_global >= 80 ? "text-success" : r.score_global >= 60 ? "text-warning" : "text-destructive";
