@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Check, AlertTriangle, Lock, Sparkles, ArrowRight } from "lucide-react";
 import { getState, setState } from "@/lib/analyze-store";
-import { analyzeWithGemini, type AnalysisResult } from "@/lib/gemini";
+import { analyzeWithGemini, type AnalysisResult } from "@/server/analyzeWithGemini";
 
 export const Route = createFileRoute("/analyze/preview")({
   head: () => ({ meta: [{ title: "Vista previa — PitchScore AI" }] }),
@@ -25,7 +25,7 @@ function PreviewPage() {
         if (!s.pdfBase64) {
           throw new Error("No encontramos tu pitch deck. Vuelve a subirlo.");
         }
-        const r = await analyzeWithGemini(s.pdfBase64, s.contexto || {});
+        const r = await analyzeWithGemini({ data: { pdfBase64: s.pdfBase64, contexto: s.contexto || {} } });
         if (!cancelled) {
           setResult(r);
           setLoading(false);
