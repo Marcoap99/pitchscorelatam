@@ -128,7 +128,7 @@ function ResultsPage() {
               Criterios clave en esta etapa
             </p>
             <ul className="space-y-2">
-              {r.benchmark_latam.criterios_clave.map((c) => (
+              {r.benchmark_latam.criterios_clave.map((c: string) => (
                 <li key={c} className="flex items-start gap-2 text-sm">
                   <span className="size-1.5 rounded-full bg-primary mt-2 shrink-0" />
                   {c}
@@ -162,7 +162,7 @@ function ResultsPage() {
             3 recomendaciones priorizadas
           </h2>
           <div className="space-y-4">
-            {r.recomendaciones.map((rec) => (
+            {r.recomendaciones.map((rec: any) => (
               <div key={rec.prioridad} className="flex gap-4 p-4 rounded-xl border border-ink/10">
                 <div className="size-10 rounded-full bg-primary text-primary-foreground grid place-items-center font-display font-bold shrink-0">
                   {rec.prioridad}
