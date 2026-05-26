@@ -27,6 +27,7 @@ function PreviewPage() {
         }
         const r = await analyzeWithGroq({ data: { pdfBase64: s.pdfBase64, contexto: s.contexto || {} } });
         if (!cancelled) {
+          setState({ resultado: r });
           setResult(r);
           setLoading(false);
         }
