@@ -2,7 +2,8 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Check, AlertTriangle, Lock, Sparkles, ArrowRight } from "lucide-react";
-import { getState, MOCK_RESULT, setState } from "@/lib/analyze-store";
+import { getState, setState } from "@/lib/analyze-store";
+import { analyzeWithGemini, type AnalysisResult } from "@/lib/gemini";
 
 export const Route = createFileRoute("/analyze/preview")({
   head: () => ({ meta: [{ title: "Vista previa — PitchScore AI" }] }),
@@ -12,20 +13,61 @@ export const Route = createFileRoute("/analyze/preview")({
 function PreviewPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const state = typeof window !== "undefined" ? getState() : { contexto: {}, validacion: undefined };
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
+  const state = typeof window !== "undefined" ? getState() : { contexto: {}, validacion: undefined, pdfBase64: undefined };
 
   useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 1800);
-    return () => clearTimeout(t);
+    let cancelled = false;
+    (async () => {
+      try {
+        const s = getState();
+        if (!s.pdfBase64) {
+          throw new Error("No encontramos tu pitch deck. Vuelve a subirlo.");
+        }
+        const r = await analyzeWithGemini(s.pdfBase64, s.contexto || {});
+        if (!cancelled) {
+          setResult(r);
+          setLoading(false);
+        }
+      } catch (e: any) {
+        if (!cancelled) {
+          setError(e?.message || "No pudimos analizar tu deck en este momento.");
+          setLoading(false);
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (loading) return <LoadingState />;
 
-  const claridad = MOCK_RESULT.scores.claridad_problema;
+  if (error || !result) {
+    return (
+      <div className="min-h-screen grid place-items-center px-6">
+        <div className="card-soft p-8 max-w-md text-center">
+          <div className="mx-auto size-12 rounded-full bg-warning/15 grid place-items-center mb-4">
+            <AlertTriangle className="size-6 text-warning" />
+          </div>
+          <h1 className="text-2xl mb-2">No pudimos analizar tu deck</h1>
+          <p className="text-sm text-muted-foreground mb-6">
+            {error || "Algo salió mal. Intenta nuevamente en unos minutos."}
+          </p>
+          <Button onClick={() => navigate({ to: "/analyze" })} variant="hero" className="w-full">
+            Volver a intentar
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const claridad = result.scores.claridad_problema;
   const locked = [
-    { key: "Mercado", ...MOCK_RESULT.scores.mercado },
-    { key: "Equipo", ...MOCK_RESULT.scores.equipo },
-    { key: "Tracción", ...MOCK_RESULT.scores.traccion },
+    { key: "Mercado", ...result.scores.mercado },
+    { key: "Equipo", ...result.scores.equipo },
+    { key: "Tracción", ...result.scores.traccion },
   ];
 
   const unlock = () => {
