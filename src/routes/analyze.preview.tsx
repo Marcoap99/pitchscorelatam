@@ -22,6 +22,11 @@ function PreviewPage() {
     (async () => {
       try {
         const s = getState();
+        if (s.resultado) {
+          setResult(s.resultado);
+          setLoading(false);
+          return;
+        }
         if (!s.pdfBase64) {
           throw new Error("No encontramos tu pitch deck. Vuelve a subirlo.");
         }
