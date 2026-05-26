@@ -11,7 +11,7 @@ export const Route = createFileRoute("/analyze/results")({
 
 function ResultsPage() {
   const navigate = useNavigate();
-  const state = typeof window !== "undefined" ? getState() : { contexto: {}, githubUrl: undefined, resultado: undefined };
+  const state = typeof window !== "undefined" ? getState() : { contexto: {} as any, resultado: undefined as any };
   const r = state.resultado;
 
   useEffect(() => {
