@@ -4,22 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Upload, FileText, Github, ArrowLeft, Check, AlertTriangle, X } from "lucide-react";
 import { setState } from "@/lib/analyze-store";
-import * as pdfjsLib from "pdfjs-dist";
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
 
 async function extractPdfText(file: File): Promise<string> {
-  const buf = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
-  let full = "";
+  const arrayBuffer = await file.arrayBuffer();
+  const pdfjsLib: any = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  let text = "";
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
-    const pageText = content.items.map((it: any) => ("str" in it ? it.str : "")).join(" ");
-    full += pageText + "\n";
-    if (full.length > 8000) break;
+    text += content.items.map((item: any) => ("str" in item ? item.str : "")).join(" ") + "\n";
   }
-  return full.slice(0, 8000);
+  return text.slice(0, 8000);
 }
 
 export const Route = createFileRoute("/analyze/")({
