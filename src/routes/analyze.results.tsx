@@ -1,8 +1,17 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, Download, RefreshCw, Share2, ArrowLeft, UserRound } from "lucide-react";
+import { Check, Download, RefreshCw, Share2, ArrowLeft, UserRound, Sparkles } from "lucide-react";
 import { getState, resetState } from "@/lib/analyze-store";
+import { supabase } from "@/integrations/supabase/client";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/analyze/results")({
   head: () => ({ meta: [{ title: "Tu análisis completo — PitchScore AI" }] }),
@@ -11,14 +20,56 @@ export const Route = createFileRoute("/analyze/results")({
 
 function ResultsPage() {
   const navigate = useNavigate();
-  const state = typeof window !== "undefined" ? getState() : { contexto: {} as any, resultado: undefined as any };
+  const state =
+    typeof window !== "undefined"
+      ? getState()
+      : { contexto: {} as any, respuestas: {} as any, resultado: undefined as any };
   const r = state.resultado;
+  const savedRef = useRef(false);
+  const [showSoon, setShowSoon] = useState(false);
 
   useEffect(() => {
-    if (!r) navigate({ to: "/analyze" });
+    if (!r) {
+      navigate({ to: "/analyze" });
+      return;
+    }
+    if (savedRef.current) return;
+    savedRef.current = true;
+    const s = getState();
+    const res = s.resultado;
+    if (!res) return;
+    (async () => {
+      try {
+        await supabase.from("analisis").insert({
+          etapa: s.contexto?.etapa ?? null,
+          pais: s.contexto?.pais ?? null,
+          monto: s.contexto?.monto ?? null,
+          traccion_contexto: s.contexto?.traccion ?? null,
+          inversor: s.contexto?.inversor ?? null,
+          problema: s.respuestas?.problema ?? null,
+          solucion: s.respuestas?.solucion ?? null,
+          traccion_detalle: s.respuestas?.traccion ?? null,
+          equipo: s.respuestas?.equipo ?? null,
+          score_global: res.score_global ?? null,
+          score_problema: res.scores?.claridad_problema?.score ?? null,
+          score_mercado: res.scores?.mercado?.score ?? null,
+          score_equipo: res.scores?.equipo?.score ?? null,
+          score_traccion: res.scores?.traccion?.score ?? null,
+          recomendaciones: res.recomendaciones ?? null,
+          benchmark: res.benchmark_latam ?? null,
+          veredicto_inversor: res.veredicto_inversor ?? null,
+          resultado_completo: res,
+        });
+      } catch (e) {
+        console.error("No se pudo guardar el análisis:", e);
+      }
+    })();
+    const t = setTimeout(() => setShowSoon(true), 1200);
+    return () => clearTimeout(t);
   }, [r, navigate]);
 
   if (!r) return null;
+
 
   const scoreColor =
     r.score_global >= 80 ? "text-success" : r.score_global >= 60 ? "text-warning" : "text-destructive";
