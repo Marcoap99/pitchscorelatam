@@ -39,29 +39,39 @@ function ResultsPage() {
     const res = s.resultado;
     if (!res) return;
     (async () => {
+      const payload = {
+        etapa: s.contexto?.etapa ?? null,
+        pais: s.contexto?.pais ?? null,
+        monto: s.contexto?.monto ?? null,
+        traccion_contexto: s.contexto?.traccion ?? null,
+        inversor: s.contexto?.inversor ?? null,
+        problema: s.respuestas?.problema ?? null,
+        solucion: s.respuestas?.solucion ?? null,
+        traccion_detalle: s.respuestas?.traccion ?? null,
+        equipo: s.respuestas?.equipo ?? null,
+        score_global: res.score_global ?? null,
+        score_problema: res.scores?.claridad_problema?.score ?? null,
+        score_mercado: res.scores?.mercado?.score ?? null,
+        score_equipo: res.scores?.equipo?.score ?? null,
+        score_traccion: res.scores?.traccion?.score ?? null,
+        recomendaciones: res.recomendaciones ?? null,
+        benchmark: res.benchmark_latam ?? null,
+        veredicto_inversor: res.veredicto_inversor ?? null,
+        resultado_completo: res,
+      };
+      console.log("Supabase insert payload:", payload);
       try {
-        await supabase.from("analisis").insert({
-          etapa: s.contexto?.etapa ?? null,
-          pais: s.contexto?.pais ?? null,
-          monto: s.contexto?.monto ?? null,
-          traccion_contexto: s.contexto?.traccion ?? null,
-          inversor: s.contexto?.inversor ?? null,
-          problema: s.respuestas?.problema ?? null,
-          solucion: s.respuestas?.solucion ?? null,
-          traccion_detalle: s.respuestas?.traccion ?? null,
-          equipo: s.respuestas?.equipo ?? null,
-          score_global: res.score_global ?? null,
-          score_problema: res.scores?.claridad_problema?.score ?? null,
-          score_mercado: res.scores?.mercado?.score ?? null,
-          score_equipo: res.scores?.equipo?.score ?? null,
-          score_traccion: res.scores?.traccion?.score ?? null,
-          recomendaciones: res.recomendaciones ?? null,
-          benchmark: res.benchmark_latam ?? null,
-          veredicto_inversor: res.veredicto_inversor ?? null,
-          resultado_completo: res,
-        });
+        const { data, error } = await supabase
+          .from("analisis")
+          .insert(payload)
+          .select();
+        console.log("Supabase insert result:", data, error);
+        if (error) {
+          alert("Error guardando análisis: " + JSON.stringify(error));
+        }
       } catch (e) {
         console.error("No se pudo guardar el análisis:", e);
+        alert("Excepción guardando análisis: " + JSON.stringify(e));
       }
     })();
     const t = setTimeout(() => setShowSoon(true), 1200);
