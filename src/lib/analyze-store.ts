@@ -19,6 +19,7 @@ export type AnalyzeState = {
     secciones_faltantes: string[];
   };
   pagado?: boolean;
+  resultado?: any;
 };
 
 const KEY = "pitchscore.analyze";

@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, AlertTriangle, Download, RefreshCw, Share2, Github, ArrowLeft } from "lucide-react";
-import { getState, MOCK_RESULT, resetState } from "@/lib/analyze-store";
+import { Check, Download, RefreshCw, Share2, Github, ArrowLeft } from "lucide-react";
+import { getState, resetState } from "@/lib/analyze-store";
 
 export const Route = createFileRoute("/analyze/results")({
   head: () => ({ meta: [{ title: "Tu análisis completo — PitchScore AI" }] }),
@@ -10,8 +11,14 @@ export const Route = createFileRoute("/analyze/results")({
 
 function ResultsPage() {
   const navigate = useNavigate();
-  const state = typeof window !== "undefined" ? getState() : { contexto: {}, githubUrl: undefined };
-  const r = MOCK_RESULT;
+  const state = typeof window !== "undefined" ? getState() : { contexto: {}, githubUrl: undefined, resultado: undefined };
+  const r = state.resultado;
+
+  useEffect(() => {
+    if (!r) navigate({ to: "/analyze" });
+  }, [r, navigate]);
+
+  if (!r) return null;
 
   const scoreColor =
     r.score_global >= 80 ? "text-success" : r.score_global >= 60 ? "text-warning" : "text-destructive";
@@ -121,7 +128,7 @@ function ResultsPage() {
               Criterios clave en esta etapa
             </p>
             <ul className="space-y-2">
-              {r.benchmark_latam.criterios_clave.map((c) => (
+              {r.benchmark_latam.criterios_clave.map((c: string) => (
                 <li key={c} className="flex items-start gap-2 text-sm">
                   <span className="size-1.5 rounded-full bg-primary mt-2 shrink-0" />
                   {c}
@@ -155,7 +162,7 @@ function ResultsPage() {
             3 recomendaciones priorizadas
           </h2>
           <div className="space-y-4">
-            {r.recomendaciones.map((rec) => (
+            {r.recomendaciones.map((rec: any) => (
               <div key={rec.prioridad} className="flex gap-4 p-4 rounded-xl border border-ink/10">
                 <div className="size-10 rounded-full bg-primary text-primary-foreground grid place-items-center font-display font-bold shrink-0">
                   {rec.prioridad}
