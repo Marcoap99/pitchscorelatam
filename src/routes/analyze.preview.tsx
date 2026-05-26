@@ -64,12 +64,13 @@ function PreviewPage() {
     );
   }
 
-  const claridad = getState().resultado?.scores?.claridad_problema;
-  if (!claridad) return <LoadingState />;
+  const resultado = getState().resultado;
+  const claridad = resultado?.scores?.claridad_problema;
+  if (!resultado || !claridad) return <LoadingState />;
   const locked = [
-    { key: "Mercado", ...result.scores.mercado },
-    { key: "Equipo", ...result.scores.equipo },
-    { key: "Tracción", ...result.scores.traccion },
+    { key: "Mercado", ...resultado?.scores?.mercado },
+    { key: "Equipo", ...resultado?.scores?.equipo },
+    { key: "Tracción", ...resultado?.scores?.traccion },
   ];
 
   const unlock = () => {
@@ -187,8 +188,13 @@ function PreviewPage() {
           </div>
         </div>
 
+        {/* Score preliminar */}
+        <p className="mt-10 text-center font-display text-2xl font-semibold">
+          Tu score preliminar: <span className="text-primary">{resultado?.score_global}/100</span>
+        </p>
+
         {/* Paywall */}
-        <div id="paywall" className="mt-12 rounded-3xl bg-ink text-cream p-6 md:p-10">
+        <div id="paywall" className="mt-6 rounded-3xl bg-ink text-cream p-6 md:p-10">
           <h2 className="text-3xl text-cream max-w-md">
             Ve todo lo que está bloqueando tu ronda
           </h2>
