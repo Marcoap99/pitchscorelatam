@@ -14,7 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      analisis: {
+        Row: {
+          benchmark: Json | null
+          created_at: string
+          equipo: string | null
+          etapa: string | null
+          id: string
+          inversor: string | null
+          monto: string | null
+          pais: string | null
+          problema: string | null
+          recomendaciones: Json | null
+          resultado_completo: Json | null
+          score_equipo: number | null
+          score_global: number | null
+          score_mercado: number | null
+          score_problema: number | null
+          score_traccion: number | null
+          solucion: string | null
+          traccion_contexto: string | null
+          traccion_detalle: string | null
+          veredicto_inversor: string | null
+        }
+        Insert: {
+          benchmark?: Json | null
+          created_at?: string
+          equipo?: string | null
+          etapa?: string | null
+          id?: string
+          inversor?: string | null
+          monto?: string | null
+          pais?: string | null
+          problema?: string | null
+          recomendaciones?: Json | null
+          resultado_completo?: Json | null
+          score_equipo?: number | null
+          score_global?: number | null
+          score_mercado?: number | null
+          score_problema?: number | null
+          score_traccion?: number | null
+          solucion?: string | null
+          traccion_contexto?: string | null
+          traccion_detalle?: string | null
+          veredicto_inversor?: string | null
+        }
+        Update: {
+          benchmark?: Json | null
+          created_at?: string
+          equipo?: string | null
+          etapa?: string | null
+          id?: string
+          inversor?: string | null
+          monto?: string | null
+          pais?: string | null
+          problema?: string | null
+          recomendaciones?: Json | null
+          resultado_completo?: Json | null
+          score_equipo?: number | null
+          score_global?: number | null
+          score_mercado?: number | null
+          score_problema?: number | null
+          score_traccion?: number | null
+          solucion?: string | null
+          traccion_contexto?: string | null
+          traccion_detalle?: string | null
+          veredicto_inversor?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
