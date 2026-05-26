@@ -27,10 +27,10 @@ function PreviewPage() {
           setLoading(false);
           return;
         }
-        if (!s.pdfBase64) {
+        if (!s.pdfText) {
           throw new Error("No encontramos tu pitch deck. Vuelve a subirlo.");
         }
-        const r = await analyzeWithGroq({ data: { pdfBase64: s.pdfBase64, contexto: s.contexto || {} } });
+        const r = await analyzeWithGroq({ data: { pdfText: s.pdfText, contexto: s.contexto || {} } });
         if (!cancelled) {
           setState({ resultado: r });
           setResult(r);
