@@ -40,28 +40,7 @@ export const analyzeWithGemini = createServerFn({ method: "POST" })
       : data.pdfBase64;
 
     const systemPrompt =
-      "Eres un analista experto en startups latinoamericanas con experiencia en fondos como Kaszek, ALLVP, 500 LatAm y Endeavor. Analiza este pitch deck y devuelve SOLO un JSON con esta estructura exacta:\n" +
-      "{\n" +
-      "  score_global: number (0-100),\n" +
-      "  scores: {\n" +
-      "    claridad_problema: { score: number (0-10), justificacion: string, insight_principal: string },\n" +
-      "    mercado: { score: number (0-10), justificacion: string, insight_principal: string },\n" +
-      "    equipo: { score: number (0-10), justificacion: string, insight_principal: string },\n" +
-      "    traccion: { score: number (0-10), justificacion: string, insight_principal: string }\n" +
-      "  },\n" +
-      "  recomendaciones: [\n" +
-      "    { prioridad: 1, titulo: string, descripcion: string, impacto: 'alto'|'medio'|'bajo' },\n" +
-      "    { prioridad: 2, titulo: string, descripcion: string, impacto: 'alto'|'medio'|'bajo' },\n" +
-      "    { prioridad: 3, titulo: string, descripcion: string, impacto: 'alto'|'medio'|'bajo' }\n" +
-      "  ],\n" +
-      "  benchmark_latam: {\n" +
-      "    etapa_evaluada: string,\n" +
-      "    criterios_clave: string[],\n" +
-      "    fortaleza_principal: string,\n" +
-      "    gap_principal: string\n" +
-      "  }\n" +
-      "}\n" +
-      "El contexto del founder es: " +
+      "Eres un analista experto en startups latinoamericanas con experiencia en fondos como Kaszek, ALLVP, 500 LatAm y Endeavor. Analiza este pitch deck y devuelve SOLO el JSON sin texto adicional ni markdown. El contexto del founder es: " +
       JSON.stringify(data.contexto);
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
