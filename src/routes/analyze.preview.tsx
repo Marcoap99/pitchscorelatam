@@ -188,8 +188,13 @@ function PreviewPage() {
           </div>
         </div>
 
+        {/* Score preliminar */}
+        <p className="mt-10 text-center font-display text-2xl font-semibold">
+          Tu score preliminar: <span className="text-primary">{resultado?.score_global}/100</span>
+        </p>
+
         {/* Paywall */}
-        <div id="paywall" className="mt-12 rounded-3xl bg-ink text-cream p-6 md:p-10">
+        <div id="paywall" className="mt-6 rounded-3xl bg-ink text-cream p-6 md:p-10">
           <h2 className="text-3xl text-cream max-w-md">
             Ve todo lo que está bloqueando tu ronda
           </h2>
