@@ -6,18 +6,27 @@ import { Upload, FileText, Github, ArrowLeft, Check, AlertTriangle, X } from "lu
 import { setState } from "@/lib/analyze-store";
 
 async function extractPdfText(file: File): Promise<string> {
-  const arrayBuffer = await file.arrayBuffer();
-  const pdfjsLib: any = await import("pdfjs-dist/legacy/build/pdf.mjs");
-  pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-  let text = "";
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const content = await page.getTextContent();
-    text += content.items.map((item: any) => ("str" in item ? item.str : "")).join(" ") + "\n";
-  }
-  return text.slice(0, 8000);
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const binary = e.target?.result as string;
+      const chunks: string[] = [];
+      const regex = /\(([^\)]{3,})\)/g;
+      let match;
+      while ((match = regex.exec(binary)) !== null) {
+        const str = match[1]
+          .replace(/\\n/g, " ")
+          .replace(/\\r/g, " ")
+          .replace(/\\\\/g, "\\")
+          .replace(/\\([0-7]{3})/g, (_, oct) => String.fromCharCode(parseInt(oct, 8)));
+        if (/[a-zA-ZáéíóúñüÁÉÍÓÚÑÜ]{2,}/.test(str)) {
+          chunks.push(str);
+        }
+      }
+      resolve(chunks.join(" ").slice(0, 8000));
+    };
+    reader.readAsBinaryString(file);
+  });
 }
 
 export const Route = createFileRoute("/analyze/")({
