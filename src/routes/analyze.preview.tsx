@@ -25,7 +25,7 @@ function PreviewPage() {
         if (!s.pdfBase64) {
           throw new Error("No encontramos tu pitch deck. Vuelve a subirlo.");
         }
-        const r = await analyzeWithGemini({ data: { pdfBase64: s.pdfBase64, contexto: s.contexto || {} } });
+        const r = await analyzeWithGroq({ data: { pdfBase64: s.pdfBase64, contexto: s.contexto || {} } });
         if (!cancelled) {
           setResult(r);
           setLoading(false);
