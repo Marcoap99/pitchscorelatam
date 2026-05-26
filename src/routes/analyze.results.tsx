@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, Download, RefreshCw, Share2, Github, ArrowLeft } from "lucide-react";
+import { Check, Download, RefreshCw, Share2, ArrowLeft, UserRound } from "lucide-react";
 import { getState, resetState } from "@/lib/analyze-store";
 
 export const Route = createFileRoute("/analyze/results")({
