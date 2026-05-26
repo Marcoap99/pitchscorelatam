@@ -64,7 +64,8 @@ function PreviewPage() {
     );
   }
 
-  const claridad = result.scores.claridad_problema;
+  const claridad = getState().resultado?.scores?.claridad_problema;
+  if (!claridad) return <LoadingState />;
   const locked = [
     { key: "Mercado", ...result.scores.mercado },
     { key: "Equipo", ...result.scores.equipo },
