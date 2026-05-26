@@ -10,6 +10,7 @@ export type Contexto = {
 export type AnalyzeState = {
   fileName?: string;
   fileSize?: number;
+  pdfBase64?: string;
   githubUrl?: string;
   contexto: Contexto;
   validacion?: {
