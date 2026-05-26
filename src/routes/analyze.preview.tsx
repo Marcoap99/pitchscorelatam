@@ -64,12 +64,13 @@ function PreviewPage() {
     );
   }
 
-  const claridad = getState().resultado?.scores?.claridad_problema;
-  if (!claridad) return <LoadingState />;
+  const resultado = getState().resultado;
+  const claridad = resultado?.scores?.claridad_problema;
+  if (!resultado || !claridad) return <LoadingState />;
   const locked = [
-    { key: "Mercado", ...result.scores.mercado },
-    { key: "Equipo", ...result.scores.equipo },
-    { key: "Tracción", ...result.scores.traccion },
+    { key: "Mercado", ...resultado?.scores?.mercado },
+    { key: "Equipo", ...resultado?.scores?.equipo },
+    { key: "Tracción", ...resultado?.scores?.traccion },
   ];
 
   const unlock = () => {
