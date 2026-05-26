@@ -228,7 +228,7 @@ function AdminDashboard() {
                           </td>
                         </tr>
                       )}
-                    </>
+                    </Fragment>
                   );
                 })}
               </tbody>
