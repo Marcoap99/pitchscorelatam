@@ -15,7 +15,10 @@ function PreviewPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
-  const state = typeof window !== "undefined" ? getState() : { contexto: {}, validacion: undefined, pdfBase64: undefined };
+  const state =
+    typeof window !== "undefined"
+      ? getState()
+      : { contexto: {}, respuestas: {}, validacion: undefined };
 
   useEffect(() => {
     let cancelled = false;
@@ -27,10 +30,12 @@ function PreviewPage() {
           setLoading(false);
           return;
         }
-        if (!s.pdfText) {
-          throw new Error("No encontramos tu pitch deck. Vuelve a subirlo.");
+        if (!s.respuestas || !s.respuestas.problema) {
+          throw new Error("Faltan respuestas. Vuelve a empezar el cuestionario.");
         }
-        const r = await analyzeWithGroq({ data: { pdfText: s.pdfText, contexto: s.contexto || {} } });
+        const r = await analyzeWithGroq({
+          data: { contexto: s.contexto || {}, respuestas: s.respuestas },
+        });
         if (!cancelled) {
           setState({ resultado: r });
           setResult(r);
@@ -47,6 +52,7 @@ function PreviewPage() {
       cancelled = true;
     };
   }, []);
+
 
   if (loading) return <LoadingState />;
 
