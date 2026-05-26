@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, Download, RefreshCw, Share2, Github, ArrowLeft } from "lucide-react";
+import { Check, Download, RefreshCw, Share2, ArrowLeft, UserRound } from "lucide-react";
 import { getState, resetState } from "@/lib/analyze-store";
 
 export const Route = createFileRoute("/analyze/results")({
@@ -11,7 +11,7 @@ export const Route = createFileRoute("/analyze/results")({
 
 function ResultsPage() {
   const navigate = useNavigate();
-  const state = typeof window !== "undefined" ? getState() : { contexto: {}, githubUrl: undefined, resultado: undefined };
+  const state = typeof window !== "undefined" ? getState() : { contexto: {} as any, resultado: undefined as any };
   const r = state.resultado;
 
   useEffect(() => {
@@ -93,29 +93,21 @@ function ResultsPage() {
           ))}
         </div>
 
-        {/* Repo section */}
-        {state.githubUrl && (
-          <div className="card-soft p-7 mb-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Github className="size-5" />
-              <h2 className="text-xl font-display font-semibold">Análisis de repositorio</h2>
-            </div>
-            <p className="text-xs text-muted-foreground mb-5 font-mono">{state.githubUrl}</p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
-              <Stat label="Último push" value="Hace 4 días" />
-              <Stat label="Contribuidores" value="3" />
-              <Stat label="Lenguaje principal" value="TypeScript" />
-              <Stat label="Commits (30d)" value="42" />
-            </div>
-            <div className="rounded-xl bg-success/10 border border-success/20 p-4 flex gap-3">
-              <Check className="size-5 text-success shrink-0 mt-0.5" />
-              <p className="text-sm">
-                <strong>Repositorio consistente con el deck.</strong> La actividad reciente y el
-                stack mencionado coinciden.
+        {/* Veredicto del inversor */}
+        {r.veredicto_inversor && (
+          <div className="rounded-3xl bg-ink text-cream p-7 md:p-8 mb-6">
+            <div className="flex items-center gap-2 mb-3">
+              <UserRound className="size-5 text-cream/80" />
+              <p className="text-xs uppercase tracking-widest text-cream/60 font-semibold">
+                Lo que diría un partner de {state.contexto?.inversor || "fondo LATAM"}
               </p>
             </div>
+            <p className="text-lg md:text-xl leading-relaxed text-cream italic">
+              &ldquo;{r.veredicto_inversor}&rdquo;
+            </p>
           </div>
         )}
+
 
         {/* Benchmark */}
         <div className="card-soft p-7 mb-6">
@@ -162,7 +154,7 @@ function ResultsPage() {
             3 recomendaciones priorizadas
           </h2>
           <div className="space-y-4">
-            {r.recomendaciones.map((rec: { prioridad: number, titulo: string, descripcion: string, impacto: string }) => (
+            {r.recomendaciones.map((rec: { prioridad: number, titulo: string, descripcion: string, impacto: string, fuente?: string }) => (
               <div key={rec.prioridad} className="flex gap-4 p-4 rounded-xl border border-ink/10">
                 <div className="size-10 rounded-full bg-primary text-primary-foreground grid place-items-center font-display font-bold shrink-0">
                   {rec.prioridad}
@@ -185,9 +177,15 @@ function ResultsPage() {
                   <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
                     {rec.descripcion}
                   </p>
+                  {rec.fuente && (
+                    <p className="text-xs text-muted-foreground/70 mt-2 italic">
+                      Basado en: {rec.fuente}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}
+
           </div>
         </div>
 
