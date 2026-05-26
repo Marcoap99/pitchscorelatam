@@ -162,7 +162,7 @@ function ResultsPage() {
             3 recomendaciones priorizadas
           </h2>
           <div className="space-y-4">
-            {r.recomendaciones.map((rec: any) => (
+            {r.recomendaciones.map((rec: { prioridad: number, titulo: string, descripcion: string, impacto: string }) => (
               <div key={rec.prioridad} className="flex gap-4 p-4 rounded-xl border border-ink/10">
                 <div className="size-10 rounded-full bg-primary text-primary-foreground grid place-items-center font-display font-bold shrink-0">
                   {rec.prioridad}
