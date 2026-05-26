@@ -264,9 +264,32 @@ function ResultsPage() {
           </Button>
         </div>
       </div>
+
+      <Dialog open={showSoon} onOpenChange={setShowSoon}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <div className="mx-auto size-12 rounded-full bg-primary/10 grid place-items-center mb-3">
+              <Sparkles className="size-6 text-primary" />
+            </div>
+            <DialogTitle className="text-center font-display text-2xl">
+              Próximamente
+            </DialogTitle>
+            <DialogDescription className="text-center text-base leading-relaxed pt-2">
+              Pronto podrás subir tu pitch deck (PPT o PDF) y lo evaluaremos
+              automáticamente, slide por slide.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="sm:justify-center">
+            <Button variant="hero" onClick={() => setShowSoon(false)}>
+              Entendido
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
+
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
