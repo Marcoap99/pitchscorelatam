@@ -20,13 +20,26 @@ type Status = "idle" | "validating" | "error" | "success";
 function AnalyzePage() {
   const navigate = useNavigate();
   const [file, setFile] = useState<File | null>(null);
+  const [pdfBase64, setPdfBase64] = useState<string | null>(null);
   const [githubUrl, setGithubUrl] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleFile = (f: File) => {
+  const fileToBase64 = (f: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result as string;
+        // Strip "data:application/pdf;base64,"
+        resolve(result.includes(",") ? result.split(",")[1] : result);
+      };
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(f);
+    });
+
+  const handleFile = async (f: File) => {
     if (f.type !== "application/pdf") {
       setErrorMsg("Solo aceptamos archivos PDF. Exporta tu deck desde Canva o Google Slides como PDF.");
       setStatus("error");
@@ -39,24 +52,34 @@ function AnalyzePage() {
     }
     setFile(f);
     setStatus("validating");
-    // Mock validation (real call to Gemini happens in next prompt).
-    setTimeout(() => {
+    try {
+      const b64 = await fileToBase64(f);
+      setPdfBase64(b64);
       setStatus("success");
-    }, 1500);
+    } catch {
+      setErrorMsg("No pudimos leer el archivo. Intenta nuevamente.");
+      setStatus("error");
+    }
   };
 
   const proceed = () => {
-    setState({
-      fileName: file?.name,
-      fileSize: file?.size,
-      githubUrl: githubUrl.trim() || undefined,
-      validacion: {
-        slides_detectados: 12,
-        secciones_presentes: ["problema", "solución", "mercado", "equipo", "tracción"],
-        secciones_faltantes: ["financials"],
-      },
-    });
-    navigate({ to: "/analyze/questions" });
+    try {
+      setState({
+        fileName: file?.name,
+        fileSize: file?.size,
+        pdfBase64: pdfBase64 ?? undefined,
+        githubUrl: githubUrl.trim() || undefined,
+        validacion: {
+          slides_detectados: 12,
+          secciones_presentes: ["problema", "solución", "mercado", "equipo", "tracción"],
+          secciones_faltantes: ["financials"],
+        },
+      });
+      navigate({ to: "/analyze/questions" });
+    } catch {
+      setErrorMsg("Tu archivo es muy grande para guardarlo en el navegador. Prueba con un PDF más liviano.");
+      setStatus("error");
+    }
   };
 
   return (
