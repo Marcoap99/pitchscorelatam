@@ -189,7 +189,7 @@ function AdminDashboard() {
                 {rows.map((row) => {
                   const isOpen = expanded === row.id;
                   return (
-                    <>
+                    <Fragment key={row.id}>
                       <tr
                         key={row.id}
                         className="border-t border-ink/10 hover:bg-ink/5 cursor-pointer"
