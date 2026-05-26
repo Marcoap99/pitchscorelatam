@@ -58,12 +58,19 @@ export const MOCK_RESULT = {
     equipo: { score: 7, justificacion: "", insight_principal: "" },
     traccion: { score: 5, justificacion: "", insight_principal: "" },
   },
-  recomendaciones: [],
+  recomendaciones: [] as Array<{
+    prioridad: number;
+    titulo: string;
+    descripcion: string;
+    impacto: "alto" | "medio" | "bajo";
+    fuente?: string;
+  }>,
   benchmark_latam: {
     etapa_evaluada: "Seed",
-    criterios_clave: [],
+    criterios_clave: [] as string[],
     fortaleza_principal: "",
     gap_principal: "",
   },
   veredicto_inversor: "",
 };
+
