@@ -4,6 +4,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Upload, FileText, Github, ArrowLeft, Check, AlertTriangle, X } from "lucide-react";
 import { setState } from "@/lib/analyze-store";
+import * as pdfjsLib from "pdfjs-dist";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
+
+async function extractPdfText(file: File): Promise<string> {
+  const buf = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+  let full = "";
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    const pageText = content.items.map((it: any) => ("str" in it ? it.str : "")).join(" ");
+    full += pageText + "\n";
+    if (full.length > 8000) break;
+  }
+  return full.slice(0, 8000);
+}
 
 export const Route = createFileRoute("/analyze/")({
   head: () => ({
@@ -20,24 +37,12 @@ type Status = "idle" | "validating" | "error" | "success";
 function AnalyzePage() {
   const navigate = useNavigate();
   const [file, setFile] = useState<File | null>(null);
-  const [pdfBase64, setPdfBase64] = useState<string | null>(null);
+  const [pdfText, setPdfText] = useState<string | null>(null);
   const [githubUrl, setGithubUrl] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const fileToBase64 = (f: File): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result as string;
-        // Strip "data:application/pdf;base64,"
-        resolve(result.includes(",") ? result.split(",")[1] : result);
-      };
-      reader.onerror = () => reject(reader.error);
-      reader.readAsDataURL(f);
-    });
 
   const handleFile = async (f: File) => {
     if (f.type !== "application/pdf") {
@@ -53,8 +58,13 @@ function AnalyzePage() {
     setFile(f);
     setStatus("validating");
     try {
-      const b64 = await fileToBase64(f);
-      setPdfBase64(b64);
+      const text = await extractPdfText(f);
+      if (!text.trim()) {
+        setErrorMsg("No pudimos extraer texto del PDF. Asegúrate de que no sea un PDF escaneado solo con imágenes.");
+        setStatus("error");
+        return;
+      }
+      setPdfText(text);
       setStatus("success");
     } catch {
       setErrorMsg("No pudimos leer el archivo. Intenta nuevamente.");
@@ -67,7 +77,7 @@ function AnalyzePage() {
       setState({
         fileName: file?.name,
         fileSize: file?.size,
-        pdfBase64: pdfBase64 ?? undefined,
+        pdfText: pdfText ?? undefined,
         githubUrl: githubUrl.trim() || undefined,
         validacion: {
           slides_detectados: 12,
