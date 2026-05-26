@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Fragment } from "react";
+
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -186,50 +186,48 @@ function AdminDashboard() {
                     </td>
                   </tr>
                 )}
-                {rows.map((row) => {
+                {rows.flatMap((row) => {
                   const isOpen = expanded === row.id;
-                  return (
-                    <Fragment key={row.id}>
-                      <tr
-                        key={row.id}
-                        className="border-t border-ink/10 hover:bg-ink/5 cursor-pointer"
-                        onClick={() => setExpanded(isOpen ? null : row.id)}
-                      >
-                        <td className="px-4 py-3">
-                          {isOpen ? (
-                            <ChevronDown className="size-4" />
-                          ) : (
-                            <ChevronRight className="size-4" />
-                          )}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          {new Date(row.created_at).toLocaleString("es-419", {
-                            dateStyle: "short",
-                            timeStyle: "short",
-                          })}
-                        </td>
-                        <td className="px-4 py-3">{row.pais || "—"}</td>
-                        <td className="px-4 py-3">{row.etapa || "—"}</td>
-                        <td className="px-4 py-3">{row.inversor || "—"}</td>
-                        <td className="px-4 py-3 font-semibold text-primary">
-                          {row.score_global ?? "—"}
-                        </td>
-                        <td className="px-4 py-3 text-muted-foreground">
-                          {(row.problema || "").slice(0, 50)}
-                          {(row.problema || "").length > 50 ? "…" : ""}
+                  return [
+                    <tr
+                      key={row.id}
+                      className="border-t border-ink/10 hover:bg-ink/5 cursor-pointer"
+                      onClick={() => setExpanded(isOpen ? null : row.id)}
+                    >
+                      <td className="px-4 py-3">
+                        {isOpen ? (
+                          <ChevronDown className="size-4" />
+                        ) : (
+                          <ChevronRight className="size-4" />
+                        )}
+                      </td>
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        {new Date(row.created_at).toLocaleString("es-419", {
+                          dateStyle: "short",
+                          timeStyle: "short",
+                        })}
+                      </td>
+                      <td className="px-4 py-3">{row.pais || "—"}</td>
+                      <td className="px-4 py-3">{row.etapa || "—"}</td>
+                      <td className="px-4 py-3">{row.inversor || "—"}</td>
+                      <td className="px-4 py-3 font-semibold text-primary">
+                        {row.score_global ?? "—"}
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground">
+                        {(row.problema || "").slice(0, 50)}
+                        {(row.problema || "").length > 50 ? "…" : ""}
+                      </td>
+                    </tr>,
+                    isOpen ? (
+                      <tr key={row.id + "-d"} className="border-t border-ink/10 bg-ink/[0.02]">
+                        <td colSpan={7} className="px-4 py-4">
+                          <pre className="text-xs bg-ink text-cream rounded-xl p-4 overflow-auto max-h-[500px] whitespace-pre-wrap break-words">
+                            {JSON.stringify(row.resultado_completo, null, 2)}
+                          </pre>
                         </td>
                       </tr>
-                      {isOpen && (
-                        <tr key={row.id + "-d"} className="border-t border-ink/10 bg-ink/[0.02]">
-                          <td colSpan={7} className="px-4 py-4">
-                            <pre className="text-xs bg-ink text-cream rounded-xl p-4 overflow-auto max-h-[500px] whitespace-pre-wrap break-words">
-                              {JSON.stringify(row.resultado_completo, null, 2)}
-                            </pre>
-                          </td>
-                        </tr>
-                      )}
-                    </Fragment>
-                  );
+                    ) : null,
+                  ];
                 })}
               </tbody>
             </table>
