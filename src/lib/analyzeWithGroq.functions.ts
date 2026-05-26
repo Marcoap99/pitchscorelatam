@@ -1,11 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 
-function extractTextFromPdfBuffer(buffer: Buffer): string {
-  const text = buffer.toString("latin1");
-  const matches = text.match(/[^\x00-\x08\x0E-\x1F\x7F-\x9F]{4,}/g);
-  return matches ? matches.join(" ").slice(0, 8000) : "";
-}
-
 export type AnalysisResult = {
   score_global: number;
   scores: {
@@ -28,27 +22,20 @@ export type AnalysisResult = {
   };
 };
 
-type Input = { pdfBase64: string; contexto: Record<string, unknown> };
+type Input = { pdfText: string; contexto: Record<string, unknown> };
 
 export const analyzeWithGroq = createServerFn({ method: "POST" })
   .inputValidator((data: Input) => {
-    if (!data || typeof data.pdfBase64 !== "string" || !data.pdfBase64) {
-      throw new Error("pdfBase64 requerido");
+    if (!data || typeof data.pdfText !== "string" || !data.pdfText) {
+      throw new Error("pdfText requerido");
     }
-    return { pdfBase64: data.pdfBase64, contexto: data.contexto || {} };
+    return { pdfText: data.pdfText.slice(0, 8000), contexto: data.contexto || {} };
   })
   .handler(async ({ data }): Promise<AnalysisResult> => {
     const apiKey =
       process.env.GROQ_API_KEY ||
       (typeof import.meta !== "undefined" ? (import.meta as any).env?.VITE_GROQ_API_KEY : undefined);
     if (!apiKey) throw new Error("GROQ_API_KEY no está configurada");
-
-    const base64 = data.pdfBase64.includes(",")
-      ? data.pdfBase64.split(",")[1]
-      : data.pdfBase64;
-
-    const pdfBuffer = Buffer.from(base64, "base64");
-    const textoExtraido = extractTextFromPdfBuffer(pdfBuffer);
 
     const systemPrompt =
       "Eres un analista experto en startups latinoamericanas con experiencia en fondos como Kaszek, ALLVP, 500 LatAm y Endeavor. Analiza pitch decks y devuelves SOLO JSON válido, sin texto adicional, sin markdown, sin bloques de código.";
@@ -57,7 +44,7 @@ export const analyzeWithGroq = createServerFn({ method: "POST" })
       "Analiza este pitch deck y devuelve SOLO este JSON exacto: { score_global: number (0-100), scores: { claridad_problema: { score: number (0-10), justificacion: string, insight_principal: string }, mercado: { score: number (0-10), justificacion: string, insight_principal: string }, equipo: { score: number (0-10), justificacion: string, insight_principal: string }, traccion: { score: number (0-10), justificacion: string, insight_principal: string } }, recomendaciones: [ { prioridad: 1, titulo: string, descripcion: string, impacto: 'alto'|'medio'|'bajo' }, { prioridad: 2, titulo: string, descripcion: string, impacto: 'alto'|'medio'|'bajo' }, { prioridad: 3, titulo: string, descripcion: string, impacto: 'alto'|'medio'|'bajo' } ], benchmark_latam: { etapa_evaluada: string, criterios_clave: string[], fortaleza_principal: string, gap_principal: string } } Contexto del founder: " +
       JSON.stringify(data.contexto) +
       " Texto del pitch deck: " +
-      textoExtraido;
+      data.pdfText;
 
     const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",

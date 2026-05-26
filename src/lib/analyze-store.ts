@@ -11,6 +11,7 @@ export type AnalyzeState = {
   fileName?: string;
   fileSize?: number;
   pdfBase64?: string;
+  pdfText?: string;
   githubUrl?: string;
   contexto: Contexto;
   validacion?: {
