@@ -42,12 +42,7 @@ export const analyzeWithGroq = createServerFn({ method: "POST" })
       : data.pdfBase64;
 
     const pdfBuffer = Buffer.from(base64, "base64");
-
-    // Extract text from PDF
-    const pdfParseMod: any = await import("pdf-parse");
-    const pdfParse = pdfParseMod.default || pdfParseMod;
-    const parsed = await pdfParse(pdfBuffer);
-    const textoExtraido: string = (parsed.text || "").slice(0, 60000);
+    const textoExtraido = extractTextFromPdfBuffer(pdfBuffer);
 
     const systemPrompt =
       "Eres un analista experto en startups latinoamericanas con experiencia en fondos como Kaszek, ALLVP, 500 LatAm y Endeavor. Analiza pitch decks y devuelves SOLO JSON válido, sin texto adicional, sin markdown, sin bloques de código.";
