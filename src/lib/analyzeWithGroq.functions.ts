@@ -3,7 +3,7 @@ import { createServerFn } from "@tanstack/react-start";
 function extractTextFromPdfBuffer(buffer: Buffer): string {
   const text = buffer.toString("latin1");
   const matches = text.match(/[^\x00-\x08\x0E-\x1F\x7F-\x9F]{4,}/g);
-  return matches ? matches.join(" ").slice(0, 6000) : "";
+  return matches ? matches.join(" ").slice(0, 8000) : "";
 }
 
 export type AnalysisResult = {
@@ -66,7 +66,7 @@ export const analyzeWithGroq = createServerFn({ method: "POST" })
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "llama-3.1-8b-instant",
+        model: "llama-3.3-70b-versatile",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
