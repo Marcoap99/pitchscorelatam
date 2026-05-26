@@ -1,5 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
 
+function extractTextFromPdfBuffer(buffer: Buffer): string {
+  const text = buffer.toString("latin1");
+  const matches = text.match(/[^\x00-\x08\x0E-\x1F\x7F-\x9F]{4,}/g);
+  return matches ? matches.join(" ").slice(0, 15000) : "";
+}
+
 export type AnalysisResult = {
   score_global: number;
   scores: {
