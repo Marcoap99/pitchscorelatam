@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Check, AlertTriangle, Lock, Sparkles, ArrowRight } from "lucide-react";
 import { getState, setState } from "@/lib/analyze-store";
-import { analyzeWithGemini, type AnalysisResult } from "@/lib/analyzeWithGemini.functions";
+import { analyzeWithGroq, type AnalysisResult } from "@/lib/analyzeWithGroq.functions";
 
 export const Route = createFileRoute("/analyze/preview")({
   head: () => ({ meta: [{ title: "Vista previa — PitchScore AI" }] }),
