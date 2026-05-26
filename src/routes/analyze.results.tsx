@@ -162,7 +162,7 @@ function ResultsPage() {
             3 recomendaciones priorizadas
           </h2>
           <div className="space-y-4">
-            {r.recomendaciones.map((rec: { prioridad: number, titulo: string, descripcion: string, impacto: string }) => (
+            {r.recomendaciones.map((rec: { prioridad: number, titulo: string, descripcion: string, impacto: string, fuente?: string }) => (
               <div key={rec.prioridad} className="flex gap-4 p-4 rounded-xl border border-ink/10">
                 <div className="size-10 rounded-full bg-primary text-primary-foreground grid place-items-center font-display font-bold shrink-0">
                   {rec.prioridad}
@@ -185,9 +185,15 @@ function ResultsPage() {
                   <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
                     {rec.descripcion}
                   </p>
+                  {rec.fuente && (
+                    <p className="text-xs text-muted-foreground/70 mt-2 italic">
+                      Basado en: {rec.fuente}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}
+
           </div>
         </div>
 
