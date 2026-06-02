@@ -69,7 +69,8 @@ function Landing() {
                 icon: Upload,
                 step: "01",
                 title: "Sube tu deck en PDF",
-                body: "Arrastra el archivo. Aceptamos hasta 20MB. Opcionalmente, conecta tu repo de GitHub.",
+                body: "Arrastra el archivo. Aceptamos hasta 20MB.",
+
               },
               {
                 icon: MessageCircle,
@@ -99,45 +100,8 @@ function Landing() {
         </div>
       </section>
 
-      {/* Prueba social */}
-      <section className="px-6 pb-24">
-        <div className="mx-auto max-w-5xl">
-          <div className="text-center mb-12">
-            <p className="text-sm text-muted-foreground">
-              Usado por founders en <strong className="text-ink">Perú, México, Colombia y Argentina</strong>
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-5">
-            {[
-              {
-                quote:
-                  "Encontró 3 huecos en mi deck que ninguno de mis advisors había mencionado. Lo edité y cerré la ronda dos semanas después.",
-                name: "Ana M.",
-                role: "CEO · Fintech, México",
-              },
-              {
-                quote:
-                  "El análisis de tracción es brutal. Me obligó a quitar métricas de vanidad y pensar en unit economics.",
-                name: "Diego R.",
-                role: "Founder · SaaS, Argentina",
-              },
-              {
-                quote:
-                  "Es como tener a un partner de fondo revisando tu deck. Específico para LATAM, no genérico de Silicon Valley.",
-                name: "Camila P.",
-                role: "CTO · Marketplace, Colombia",
-              },
-            ].map((t) => (
-              <figure key={t.name} className="card-soft p-7">
-                <blockquote className="text-sm leading-relaxed text-ink">"{t.quote}"</blockquote>
-                <figcaption className="mt-5 text-xs text-muted-foreground">
-                  <span className="text-ink font-semibold">{t.name}</span> · {t.role}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
+
+
 
       {/* Final CTA */}
       <section className="px-6 pb-24">
